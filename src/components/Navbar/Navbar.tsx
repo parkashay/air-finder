@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import { Menu as MenuIcon, AccountCircle, DarkMode, LightMode } from "@mui/icons-material";
 import { useTheme } from "../../theme/useTheme";
+import { Link } from "react-router";
 
 export function Navbar() {
   const { toggleTheme, isDarkMode } = useTheme();
@@ -54,17 +55,19 @@ export function Navbar() {
           )}
 
           <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-            <Typography
-              variant="h6"
-              component="div"
-              sx={{
-                fontWeight: 400,
-                color: "text.primary",
-                fontSize: "1.375rem",
-              }}
-            >
-              AirFinder
-            </Typography>
+            <Link to="/">
+              <Typography
+                variant="h6"
+                component="div"
+                sx={{
+                  fontWeight: 400,
+                  color: "text.primary",
+                  fontSize: "1.375rem",
+                }}
+              >
+                AirFinder
+              </Typography>
+            </Link>
           </Box>
         </Box>
 

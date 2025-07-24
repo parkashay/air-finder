@@ -1,73 +1,121 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Box,
   Card,
   CardContent,
-  TextField,
   Button,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
   ToggleButton,
   ToggleButtonGroup,
-  Autocomplete,
   useTheme,
 } from "@mui/material";
-import { FlightTakeoff, FlightLand, SwapHoriz, CalendarToday, Search } from "@mui/icons-material";
+import { SwapHoriz, Search } from "@mui/icons-material";
+import { useFlightStore } from "@/stores/flights-store";
+import { AirportAutocomplete } from "./AirportAutocomplete";
+import { DatePickerModal } from "./DatePickerModal";
+import { PassengerSelector } from "./PassengerSelector";
+import { CabinClassSelector } from "./CabinClassSelector";
+import type { AirportOption } from "@/types";
+import { formatDateToYYYYMMDD } from "@/utils/format-date";
+import { useNavigate } from "react-router";
 
-interface Airport {
-  code: string;
-  name: string;
-  city: string;
-}
+const createSearchParams = (
+  data: ReturnType<ReturnType<typeof useFlightStore.getState>["getSearchData"]>
+) => {
+  const searchParams = new URLSearchParams();
 
-// Dummy airport data
-const airports: Airport[] = [
-  { code: "JFK", name: "John F. Kennedy International Airport", city: "New York" },
-  { code: "LAX", name: "Los Angeles International Airport", city: "Los Angeles" },
-  { code: "ORD", name: "O'Hare International Airport", city: "Chicago" },
-  { code: "MIA", name: "Miami International Airport", city: "Miami" },
-  { code: "SFO", name: "San Francisco International Airport", city: "San Francisco" },
-  { code: "BOS", name: "Logan International Airport", city: "Boston" },
-  { code: "SEA", name: "Seattle-Tacoma International Airport", city: "Seattle" },
-  { code: "DEN", name: "Denver International Airport", city: "Denver" },
-  { code: "LAS", name: "McCarran International Airport", city: "Las Vegas" },
-  { code: "ATL", name: "Hartsfield-Jackson Atlanta International Airport", city: "Atlanta" },
-];
+  const paramMap = {
+    originSkyId: data.origin.skyId,
+    originEntityId: data.origin.entityId,
+    destinationSkyId: data.destination.skyId,
+    destinationEntityId: data.destination.entityId,
+    departureDate: data.selectedDateRange?.from
+      ? formatDateToYYYYMMDD(data.selectedDateRange.from)
+      : null,
+    returnDate: data.selectedDateRange?.to ? formatDateToYYYYMMDD(data.selectedDateRange.to) : null,
+    adults: String(data.passengers.adults),
+    children: String(data.passengers.children),
+    infants: String(data.passengers.infants),
+    cabinClass: data.cabinClass,
+  };
+
+  // Add non-empty values to search params
+  Object.entries(paramMap).forEach(([key, value]) => {
+    if (value) {
+      searchParams.set(key, value);
+    }
+  });
+
+  return searchParams;
+};
 
 export function FlightSearchForm() {
   const theme = useTheme();
-  const [tripType, setTripType] = useState("round-trip");
-  const [passengers, setPassengers] = useState(1);
-  const [travelClass, setTravelClass] = useState("economy");
-  const [fromAirport, setFromAirport] = useState<Airport | null>(null);
-  const [toAirport, setToAirport] = useState<Airport | null>(null);
-  const [departureDate, setDepartureDate] = useState("");
-  const [returnDate, setReturnDate] = useState("");
+  const navigate = useNavigate();
+  const {
+    tripType,
+    setTripType,
+    origin,
+    destination,
+    setOrigin,
+    setDestination,
+    swapLocations,
+    selectedDateRange,
+    getSearchData,
+  } = useFlightStore();
 
-  const handleTripTypeChange = (event: React.MouseEvent<HTMLElement>, newTripType: string) => {
+  // Check if required fields are filled
+  const isFormValid = Boolean(origin.skyId && destination.skyId && selectedDateRange?.from);
+
+  // Convert store data to component format
+  const originAirport: AirportOption | null = origin.skyId
+    ? {
+        skyId: origin.skyId,
+        entityId: origin.entityId,
+        code: origin.skyId,
+        name: origin.name,
+        type: "AIRPORT",
+      }
+    : null;
+
+  const destinationAirport: AirportOption | null = destination.skyId
+    ? {
+        skyId: destination.skyId,
+        entityId: destination.entityId,
+        code: destination.skyId,
+        name: destination.name,
+        type: "AIRPORT",
+      }
+    : null;
+
+  const handleTripTypeChange = (_: React.MouseEvent<HTMLElement>, newTripType: string) => {
     if (newTripType !== null) {
-      setTripType(newTripType);
+      setTripType(newTripType as "round-trip" | "one-way" | "multi-city");
     }
   };
 
-  const handleSwapAirports = () => {
-    const temp = fromAirport;
-    setFromAirport(toAirport);
-    setToAirport(temp);
+  const handleOriginChange = (airport: AirportOption | null) => {
+    setOrigin({
+      skyId: airport?.skyId || "",
+      entityId: airport?.entityId || "",
+      name: airport?.name || "",
+    });
+  };
+
+  const handleDestinationChange = (airport: AirportOption | null) => {
+    setDestination({
+      skyId: airport?.skyId || "",
+      entityId: airport?.entityId || "",
+      name: airport?.name || "",
+    });
   };
 
   const handleSearch = () => {
-    console.log("Search flights:", {
-      tripType,
-      fromAirport,
-      toAirport,
-      departureDate,
-      returnDate,
-      passengers,
-      travelClass,
-    });
+    if (!isFormValid) return;
+
+    const searchData = getSearchData();
+    const searchParams = createSearchParams(searchData);
+
+    navigate(`/search?${searchParams.toString()}`);
   };
 
   return (
@@ -85,9 +133,14 @@ export function FlightSearchForm() {
       }}
     >
       <CardContent sx={{ p: 4 }}>
-        {/* Trip Type and Passenger/Class Selector */}
         <Box
-          sx={{ display: "flex", justifyContent: "space-between", mb: 3, flexWrap: "wrap", gap: 2 }}
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            mb: 3,
+            flexWrap: "wrap",
+            gap: 2,
+          }}
         >
           <ToggleButtonGroup
             value={tripType}
@@ -117,44 +170,17 @@ export function FlightSearchForm() {
           </ToggleButtonGroup>
 
           <Box sx={{ display: "flex", gap: 2 }}>
-            <FormControl size="small" sx={{ minWidth: 120 }}>
-              <InputLabel>Passengers</InputLabel>
-              <Select
-                value={passengers}
-                label="Passengers"
-                onChange={(e) => setPassengers(Number(e.target.value))}
-              >
-                {[1, 2, 3, 4, 5, 6].map((num) => (
-                  <MenuItem key={num} value={num}>
-                    {num} {num === 1 ? "passenger" : "passengers"}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-
-            <FormControl size="small" sx={{ minWidth: 120 }}>
-              <InputLabel>Class</InputLabel>
-              <Select
-                value={travelClass}
-                label="Class"
-                onChange={(e) => setTravelClass(e.target.value)}
-              >
-                <MenuItem value="economy">Economy</MenuItem>
-                <MenuItem value="premium-economy">Premium economy</MenuItem>
-                <MenuItem value="business">Business</MenuItem>
-                <MenuItem value="first">First</MenuItem>
-              </Select>
-            </FormControl>
+            <PassengerSelector />
+            <CabinClassSelector />
           </Box>
         </Box>
 
-        {/* Flight Search Inputs */}
         <Box
           sx={{
             display: "grid",
             gridTemplateColumns: {
               xs: "1fr",
-              md: "3.5fr 1fr 3.5fr 2fr 2fr",
+              md: tripType === "round-trip" ? "3fr 0.5fr 3fr 2fr 2fr" : "3fr 0.5fr 3fr 2fr",
             },
             gap: 2,
             alignItems: "center",
@@ -163,31 +189,18 @@ export function FlightSearchForm() {
             },
           }}
         >
-          {/* From Airport */}
           <Box>
-            <Autocomplete
-              options={airports}
-              getOptionLabel={(option) => `${option.code} - ${option.city}`}
-              value={fromAirport}
-              onChange={(event, newValue) => setFromAirport(newValue)}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Where from?"
-                  fullWidth
-                  InputProps={{
-                    ...params.InputProps,
-                    startAdornment: <FlightTakeoff sx={{ color: "text.secondary", mr: 1 }} />,
-                  }}
-                />
-              )}
+            <AirportAutocomplete
+              label="Where from?"
+              value={originAirport}
+              onChange={handleOriginChange}
+              variant="from"
             />
           </Box>
 
-          {/* Swap Button */}
           <Box sx={{ display: "flex", justifyContent: "center" }}>
             <Button
-              onClick={handleSwapAirports}
+              onClick={swapLocations}
               sx={{
                 minWidth: "auto",
                 p: 1,
@@ -199,70 +212,24 @@ export function FlightSearchForm() {
             </Button>
           </Box>
 
-          {/* To Airport */}
           <Box>
-            <Autocomplete
-              options={airports}
-              getOptionLabel={(option) => `${option.code} - ${option.city}`}
-              value={toAirport}
-              onChange={(event, newValue) => setToAirport(newValue)}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Where to?"
-                  fullWidth
-                  InputProps={{
-                    ...params.InputProps,
-                    startAdornment: <FlightLand sx={{ color: "text.secondary", mr: 1 }} />,
-                  }}
-                />
-              )}
+            <AirportAutocomplete
+              label="Where to?"
+              value={destinationAirport}
+              onChange={handleDestinationChange}
+              variant="to"
             />
           </Box>
 
-          {/* Departure Date */}
-          <Box>
-            <TextField
-              type="date"
-              label="Departure"
-              value={departureDate}
-              onChange={(e) => setDepartureDate(e.target.value)}
-              fullWidth
-              InputLabelProps={{
-                shrink: true,
-              }}
-              InputProps={{
-                startAdornment: <CalendarToday sx={{ color: "text.secondary", mr: 1 }} />,
-              }}
-            />
-          </Box>
-
-          {/* Return Date */}
-          {tripType === "round-trip" && (
-            <Box>
-              <TextField
-                type="date"
-                label="Return"
-                value={returnDate}
-                onChange={(e) => setReturnDate(e.target.value)}
-                fullWidth
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                InputProps={{
-                  startAdornment: <CalendarToday sx={{ color: "text.secondary", mr: 1 }} />,
-                }}
-              />
-            </Box>
-          )}
+          <DatePickerModal />
         </Box>
 
-        {/* Search Button */}
         <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
           <Button
             variant="contained"
             size="large"
             onClick={handleSearch}
+            disabled={!isFormValid}
             startIcon={<Search />}
             sx={{
               px: 6,
@@ -274,6 +241,10 @@ export function FlightSearchForm() {
               backgroundColor: "primary.main",
               "&:hover": {
                 backgroundColor: "primary.dark",
+              },
+              "&.Mui-disabled": {
+                backgroundColor: "action.disabledBackground",
+                color: "action.disabled",
               },
             }}
           >

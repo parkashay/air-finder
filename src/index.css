@@ -1,1 +1,10 @@
 @import "tailwindcss";
+
+.rdp-months {
+  display: flex;
+  justify-content: center;
+  flex-wrap: nowrap !important;
+  @media (max-width: 600px) {
+    flex-wrap: wrap !important;
+  }
+}
