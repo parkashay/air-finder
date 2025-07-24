@@ -1,20 +1,20 @@
-import React, { useState } from "react";
+import type { Itinerary } from "@/types/flights";
+import { ExpandLess, ExpandMore, FlightLand, FlightTakeoff, Nature } from "@mui/icons-material";
 import {
+  Avatar,
+  Box,
+  Button,
   Card,
   CardContent,
-  Box,
-  Typography,
-  Button,
   Chip,
-  Avatar,
+  Collapse,
   Divider,
   IconButton,
-  Collapse,
-  useTheme,
   Stack,
+  Typography,
+  useTheme,
 } from "@mui/material";
-import { ExpandMore, ExpandLess, FlightTakeoff, FlightLand, Nature } from "@mui/icons-material";
-import type { Itinerary } from "@/types/flights";
+import { useState } from "react";
 
 interface FlightCardProps {
   itinerary: Itinerary;

@@ -1,13 +1,4 @@
-import React from "react";
-import {
-  Box,
-  Card,
-  CardContent,
-  Skeleton,
-  Grid,
-  Typography,
-  useTheme,
-} from "@mui/material";
+import { Box, Card, CardContent, Grid, Skeleton, Typography, useTheme } from "@mui/material";
 
 export function FlightSearchLoader() {
   const theme = useTheme();
@@ -74,7 +65,12 @@ export function FlightSearchLoader() {
           <Grid item xs={6} sm={2} md={2}>
             <Box textAlign="right">
               <Skeleton variant="text" width={80} height={24} sx={{ ml: "auto", mb: 1 }} />
-              <Skeleton variant="rectangular" width={70} height={32} sx={{ ml: "auto", borderRadius: 2 }} />
+              <Skeleton
+                variant="rectangular"
+                width={70}
+                height={32}
+                sx={{ ml: "auto", borderRadius: 2 }}
+              />
             </Box>
           </Grid>
         </Grid>
@@ -129,4 +125,4 @@ export function FlightSearchLoader() {
       ))}
     </Box>
   );
-} 
+}

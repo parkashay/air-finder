@@ -41,8 +41,8 @@ export interface Navigation {
 export interface AirportSearchData {
   presentation: Presentation;
   navigation: Navigation;
-  skyId: string;
-  entityId: string;
+  skyId?: string;
+  entityId?: string;
 }
 
 export interface SearchAirportResult {

@@ -1,19 +1,19 @@
-import React, { useState } from "react";
+import { useFlightStore } from "@/stores/flights-store";
+import { CalendarToday } from "@mui/icons-material";
 import {
   Box,
-  TextField,
   Button,
-  Typography,
   Dialog,
-  DialogTitle,
-  DialogContent,
   DialogActions,
+  DialogContent,
+  DialogTitle,
+  TextField,
+  Typography,
   useTheme,
 } from "@mui/material";
-import { CalendarToday } from "@mui/icons-material";
+import { useState } from "react";
 import { DayPicker, type DateRange } from "react-day-picker";
 import "react-day-picker/style.css";
-import { useFlightStore } from "@/stores/flights-store";
 
 export function DatePickerModal() {
   const theme = useTheme();

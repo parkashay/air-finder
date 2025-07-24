@@ -1,17 +1,5 @@
-import React from "react";
-import {
-  Box,
-  Typography,
-  Button,
-  Card,
-  CardContent,
-  useTheme,
-} from "@mui/material";
-import {
-  FlightTakeoffOutlined,
-  SearchOutlined,
-  TuneOutlined,
-} from "@mui/icons-material";
+import { FlightTakeoffOutlined, SearchOutlined, TuneOutlined } from "@mui/icons-material";
+import { Box, Button, Card, CardContent, Typography, useTheme } from "@mui/material";
 
 interface NoFlightResultsProps {
   onModifySearch?: () => void;
@@ -43,18 +31,18 @@ export function NoFlightResults({ onModifySearch }: NoFlightResultsProps) {
         >
           <FlightTakeoffOutlined sx={{ fontSize: 64, color: "text.secondary" }} />
         </Box>
-        
+
         <Typography variant="h5" fontWeight={600} gutterBottom>
           No flights found
         </Typography>
-        
+
         <Typography
           variant="body1"
           color="text.secondary"
           sx={{ mb: 4, maxWidth: 400, mx: "auto" }}
         >
-          We couldn't find any flights matching your search criteria. 
-          Try adjusting your dates, destinations, or filters to see more options.
+          We couldn't find any flights matching your search criteria. Try adjusting your dates,
+          destinations, or filters to see more options.
         </Typography>
 
         <Box display="flex" gap={2} justifyContent="center" flexWrap="wrap">
@@ -70,7 +58,7 @@ export function NoFlightResults({ onModifySearch }: NoFlightResultsProps) {
           >
             Modify search
           </Button>
-          
+
           <Button
             variant="contained"
             startIcon={<SearchOutlined />}
@@ -104,4 +92,4 @@ export function NoFlightResults({ onModifySearch }: NoFlightResultsProps) {
       </CardContent>
     </Card>
   );
-} 
+}

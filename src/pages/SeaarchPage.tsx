@@ -1,6 +1,3 @@
-import React, { useState, useMemo } from "react";
-import { Container, Box, Alert } from "@mui/material";
-import { useNavigate } from "react-router";
 import { useFlightsSearchQuery } from "@/api/flights/queries";
 import { FlightCard } from "@/components/FlightSearch/FlightCard";
 import { FlightResultsHeader } from "@/components/FlightSearch/FlightResultsHeader";
@@ -8,6 +5,9 @@ import { FlightSearchLoader } from "@/components/FlightSearch/FlightSearchLoader
 import { NoFlightResults } from "@/components/FlightSearch/NoFlightResults";
 import { mockFlightSearchResponse } from "@/data/flights-mock-data";
 import type { Itinerary } from "@/types/flights";
+import { Alert, Box, Container } from "@mui/material";
+import { useMemo, useState } from "react";
+import { useNavigate } from "react-router";
 
 export function SearchPage() {
   const navigate = useNavigate();

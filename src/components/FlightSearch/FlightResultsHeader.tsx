@@ -1,22 +1,15 @@
-import React from "react";
+import { AttachMoney, InfoOutlined, Schedule, Sort, TrendingUp } from "@mui/icons-material";
 import {
   Box,
-  Typography,
-  FormControl,
-  Select,
-  MenuItem,
   Chip,
+  FormControl,
   IconButton,
+  MenuItem,
+  Select,
   Tooltip,
+  Typography,
   useTheme,
 } from "@mui/material";
-import {
-  Sort,
-  InfoOutlined,
-  TrendingUp,
-  Schedule,
-  AttachMoney,
-} from "@mui/icons-material";
 
 interface FlightResultsHeaderProps {
   totalResults: number;
@@ -72,7 +65,8 @@ export function FlightResultsHeader({
               </IconButton>
             </Tooltip>
             <Typography variant="body2" color="text.secondary">
-              Prices include required taxes + fees for 1 adult. Optional charges and bag fees may apply.
+              Prices include required taxes + fees for 1 adult. Optional charges and bag fees may
+              apply.
             </Typography>
           </Box>
         </Box>
@@ -129,4 +123,4 @@ export function FlightResultsHeader({
       </Box>
     </Box>
   );
-} 
+}

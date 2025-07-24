@@ -1,5 +1,5 @@
 import type { SearchAirportResult } from "@/types";
-import { http, makeUrl } from "../api";
+import { makeUrl } from "../api";
 import type { FlightSearchResponse } from "@/types/flights";
 import { mockFlightSearchResponse } from "@/data/flights-mock-data";
 
@@ -15,6 +15,7 @@ export async function searchAirports(query: string) {
   // });
   // const data = await res.json();
   // return data as SearchAirportResult;
+  console.log(query);
   return new Promise((res) =>
     res({
       status: true,

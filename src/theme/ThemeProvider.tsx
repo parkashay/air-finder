@@ -1,6 +1,6 @@
-import React, { useState, type ReactNode } from "react";
-import { ThemeProvider as MuiThemeProvider, createTheme, CssBaseline } from "@mui/material";
-import { deepPurple, blue, grey } from "@mui/material/colors";
+import { createTheme, CssBaseline, ThemeProvider as MuiThemeProvider } from "@mui/material";
+import { blue, deepPurple, grey } from "@mui/material/colors";
+import { useState, type ReactNode } from "react";
 import { ThemeContext } from "./useTheme";
 
 interface ThemeProviderProps {
