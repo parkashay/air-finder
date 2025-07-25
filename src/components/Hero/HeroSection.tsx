@@ -26,7 +26,6 @@ export function HeroSection() {
           backgroundImage: `url(${theme.palette.mode === "dark" ? HeroDark : HeroLight})`,
           opacity: 0.8,
           width: "100%",
-          backgroundColor: "red",
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",

@@ -7,7 +7,6 @@ export function useAirportsQuery({ query }: { query: string }) {
   return useQuery({
     queryKey: FlightKeys.airports(query),
     queryFn: () => searchAirports(query),
-    enabled: Boolean(query),
     staleTime: 0,
   });
 }

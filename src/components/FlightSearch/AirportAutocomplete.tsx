@@ -75,10 +75,7 @@ export function AirportAutocomplete({
       onChange={(_, newValue) => onChange(newValue)}
       onInputChange={handleInputChange}
       inputValue={searchTerm}
-      loading={debouncedTerm.length >= 2 && airports.length === 0}
-      noOptionsText={
-        searchTerm.length < 2 ? "Type at least 2 characters..." : "No locations found"
-      }
+      noOptionsText={"No locations found"}
       renderOption={(props, option) => (
         <Box
           component="li"

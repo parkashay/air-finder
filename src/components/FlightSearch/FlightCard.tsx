@@ -311,11 +311,10 @@ export function FlightCard({ itinerary }: FlightCardProps) {
             </Typography>
             <Button
               variant="contained"
-              size="small"
               sx={{
                 textTransform: "none",
                 fontWeight: 600,
-                borderRadius: 2,
+                borderRadius: 1,
               }}
             >
               Select

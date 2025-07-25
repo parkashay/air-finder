@@ -111,8 +111,19 @@ export function DatePickerModal() {
 
         <DialogContent>
           {tempDateRange?.from && (
-            <Box sx={{ mb: 3, p: 2, backgroundColor: "primary.light", borderRadius: 2 }}>
-              <Typography variant="body2" color="primary.dark" fontWeight={500}>
+            <Box
+              sx={{
+                mb: 3,
+                p: 2,
+                backgroundColor: theme.palette.primary.light,
+                borderRadius: 2,
+              }}
+            >
+              <Typography
+                variant="body2"
+                color={theme.palette.primary.contrastText}
+                fontWeight={500}
+              >
                 {tripType === "one-way"
                   ? `Departure: ${formatDate(tempDateRange.from)}`
                   : `${formatDate(tempDateRange.from)} ${
