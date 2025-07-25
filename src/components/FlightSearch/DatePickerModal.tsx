@@ -65,9 +65,11 @@ export function DatePickerModal() {
         onClick={handleOpen}
         fullWidth
         placeholder="Select date"
-        InputProps={{
-          readOnly: true,
-          startAdornment: <CalendarToday sx={{ color: "text.secondary", mr: 1 }} />,
+        slotProps={{
+          input: {
+            readOnly: true,
+            startAdornment: <CalendarToday sx={{ color: "text.secondary", mr: 1 }} />,
+          },
         }}
         sx={{
           cursor: "pointer",
@@ -77,7 +79,6 @@ export function DatePickerModal() {
         }}
       />
 
-      {/* Return Date Field (only for round-trip) */}
       {tripType === "round-trip" && (
         <TextField
           label="Return"
@@ -85,9 +86,11 @@ export function DatePickerModal() {
           onClick={handleOpen}
           fullWidth
           placeholder="Select date"
-          InputProps={{
-            readOnly: true,
-            startAdornment: <CalendarToday sx={{ color: "text.secondary", mr: 1 }} />,
+          slotProps={{
+            input: {
+              readOnly: true,
+              startAdornment: <CalendarToday sx={{ color: "text.secondary", mr: 1 }} />,
+            },
           }}
           sx={{
             cursor: "pointer",
@@ -98,7 +101,6 @@ export function DatePickerModal() {
         />
       )}
 
-      {/* Date Picker Dialog */}
       <Dialog open={isOpen} onClose={handleClose} maxWidth="md" fullWidth>
         <DialogTitle>
           <Box sx={{ display: "flex", alignItems: "center" }}>

@@ -3,7 +3,6 @@ import { FlightCard } from "@/components/FlightSearch/FlightCard";
 import { FlightResultsHeader } from "@/components/FlightSearch/FlightResultsHeader";
 import { FlightSearchLoader } from "@/components/FlightSearch/FlightSearchLoader";
 import { NoFlightResults } from "@/components/FlightSearch/NoFlightResults";
-import { mockFlightSearchResponse } from "@/data/flights-mock-data";
 import type { Itinerary } from "@/types/flights";
 import { Alert, Box, Container } from "@mui/material";
 import { useMemo, useState } from "react";
@@ -11,15 +10,17 @@ import { useNavigate } from "react-router";
 
 export function SearchPage() {
   const navigate = useNavigate();
-  const { data: flightResult, isLoading, error } = useFlightsSearchQuery();
+  const { data: flightData, isLoading, error } = useFlightsSearchQuery();
   const [sortBy, setSortBy] = useState("top_flights");
 
-  // Use mock data if no real data is available (for demonstration)
-  const flightData = flightResult || mockFlightSearchResponse;
-  const itineraries = flightData?.data?.itineraries || [];
+  const itineraries = useMemo(() => {
+    if (flightData?.data?.itineraries) {
+      return flightData.data.itineraries;
+    }
+    return [];
+  }, [flightData]);
   const totalResults = flightData?.data?.context?.totalResults || 0;
 
-  // Sort flights based on selected option
   const sortedItineraries = useMemo(() => {
     const sorted = [...itineraries];
 
@@ -50,7 +51,6 @@ export function SearchPage() {
     navigate("/");
   };
 
-  // Handle loading state
   if (isLoading) {
     return (
       <Container maxWidth="lg" sx={{ py: 4 }}>
@@ -71,7 +71,6 @@ export function SearchPage() {
     );
   }
 
-  // Handle no results
   if (!itineraries.length) {
     return (
       <Container maxWidth="lg" sx={{ py: 4 }}>
@@ -83,17 +82,18 @@ export function SearchPage() {
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
       <Box>
-        {/* Results Header */}
-        <FlightResultsHeader totalResults={totalResults} sortBy={sortBy} onSortChange={setSortBy} />
+        <FlightResultsHeader
+          totalResults={totalResults}
+          sortBy={sortBy}
+          onSortChange={setSortBy}
+        />
 
-        {/* Flight Cards */}
         <Box>
           {sortedItineraries.map((itinerary: Itinerary) => (
             <FlightCard key={itinerary.id} itinerary={itinerary} />
           ))}
         </Box>
 
-        {/* Load More / Pagination could go here */}
         {totalResults > sortedItineraries.length && (
           <Box display="flex" justifyContent="center" mt={4}>
             <Alert severity="info" variant="outlined">

@@ -1,4 +1,10 @@
-import { AttachMoney, InfoOutlined, Schedule, Sort, TrendingUp } from "@mui/icons-material";
+import {
+  AttachMoney,
+  InfoOutlined,
+  Schedule,
+  Sort,
+  TrendingUp,
+} from "@mui/icons-material";
 import {
   Box,
   Chip,
@@ -26,8 +32,16 @@ export function FlightResultsHeader({
 
   const sortOptions = [
     { value: "top_flights", label: "Top flights", icon: <TrendingUp fontSize="small" /> },
-    { value: "price_low", label: "Price (Low to High)", icon: <AttachMoney fontSize="small" /> },
-    { value: "price_high", label: "Price (High to Low)", icon: <AttachMoney fontSize="small" /> },
+    {
+      value: "price_low",
+      label: "Price (Low to High)",
+      icon: <AttachMoney fontSize="small" />,
+    },
+    {
+      value: "price_high",
+      label: "Price (High to Low)",
+      icon: <AttachMoney fontSize="small" />,
+    },
     { value: "duration", label: "Duration", icon: <Schedule fontSize="small" /> },
     { value: "departure", label: "Departure time", icon: <Schedule fontSize="small" /> },
   ];
@@ -42,7 +56,6 @@ export function FlightResultsHeader({
         border: `1px solid ${theme.palette.divider}`,
       }}
     >
-      {/* Header */}
       <Box
         display="flex"
         justifyContent="space-between"
@@ -65,8 +78,8 @@ export function FlightResultsHeader({
               </IconButton>
             </Tooltip>
             <Typography variant="body2" color="text.secondary">
-              Prices include required taxes + fees for 1 adult. Optional charges and bag fees may
-              apply.
+              Prices include required taxes + fees for 1 adult. Optional charges and bag
+              fees may apply.
             </Typography>
           </Box>
         </Box>
@@ -103,7 +116,6 @@ export function FlightResultsHeader({
         </Box>
       </Box>
 
-      {/* Additional Info */}
       <Box display="flex" alignItems="center" gap={1} flexWrap="wrap">
         <Chip
           label={`${totalResults} flights found`}

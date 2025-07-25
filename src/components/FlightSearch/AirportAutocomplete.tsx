@@ -12,7 +12,12 @@ interface AirportAutocompleteProps {
   variant: "from" | "to";
 }
 
-export function AirportAutocomplete({ label, value, onChange, variant }: AirportAutocompleteProps) {
+export function AirportAutocomplete({
+  label,
+  value,
+  onChange,
+  variant,
+}: AirportAutocompleteProps) {
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedTerm, setDebouncedTerm] = useState("");
 
@@ -25,7 +30,6 @@ export function AirportAutocomplete({ label, value, onChange, variant }: Airport
     query: debouncedTerm,
   });
 
-  // Transform API data to AirportOption format
   const transformAirportData = (apiData: AirportSearchData[]): AirportOption[] => {
     return apiData.map((item) => ({
       skyId: item.navigation.relevantFlightParams.skyId,
@@ -72,9 +76,15 @@ export function AirportAutocomplete({ label, value, onChange, variant }: Airport
       onInputChange={handleInputChange}
       inputValue={searchTerm}
       loading={debouncedTerm.length >= 2 && airports.length === 0}
-      noOptionsText={searchTerm.length < 2 ? "Type at least 2 characters..." : "No locations found"}
+      noOptionsText={
+        searchTerm.length < 2 ? "Type at least 2 characters..." : "No locations found"
+      }
       renderOption={(props, option) => (
-        <Box component="li" {...props} sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+        <Box
+          component="li"
+          {...props}
+          sx={{ display: "flex", alignItems: "center", gap: 2 }}
+        >
           {getIcon(option.type)}
           <Box>
             <Typography variant="body2" fontWeight={500}>

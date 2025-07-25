@@ -83,11 +83,13 @@ export function PassengerSelector() {
           vertical: "top",
           horizontal: "left",
         }}
-        PaperProps={{
-          sx: {
-            p: 3,
-            minWidth: 300,
-            borderRadius: 2,
+        slotProps={{
+          paper: {
+            sx: {
+              p: 3,
+              minWidth: 300,
+              borderRadius: 2,
+            },
           },
         }}
       >
@@ -97,8 +99,14 @@ export function PassengerSelector() {
 
         <Divider sx={{ mb: 3 }} />
 
-        {/* Adults */}
-        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 3 }}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            mb: 3,
+          }}
+        >
           <Box>
             <Typography variant="body1" fontWeight={500}>
               Adults
@@ -140,8 +148,14 @@ export function PassengerSelector() {
           </Box>
         </Box>
 
-        {/* Children */}
-        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 3 }}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            mb: 3,
+          }}
+        >
           <Box>
             <Typography variant="body1" fontWeight={500}>
               Children
@@ -183,8 +197,14 @@ export function PassengerSelector() {
           </Box>
         </Box>
 
-        {/* Infants - In seat */}
-        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 3 }}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            mb: 3,
+          }}
+        >
           <Box>
             <Typography variant="body1" fontWeight={500}>
               Infants

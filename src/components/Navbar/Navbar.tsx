@@ -11,7 +11,12 @@ import {
   useTheme as useMuiTheme,
   useMediaQuery,
 } from "@mui/material";
-import { Menu as MenuIcon, AccountCircle, DarkMode, LightMode } from "@mui/icons-material";
+import {
+  Menu as MenuIcon,
+  AccountCircle,
+  DarkMode,
+  LightMode,
+} from "@mui/icons-material";
 import { useTheme } from "../../theme/useTheme";
 import { Link } from "react-router";
 
@@ -19,7 +24,9 @@ export function Navbar() {
   const { toggleTheme, isDarkMode } = useTheme();
   const muiTheme = useMuiTheme();
   const isMobile = useMediaQuery(muiTheme.breakpoints.down("md"));
-  const [mobileMenuAnchor, setMobileMenuAnchor] = React.useState<null | HTMLElement>(null);
+  const [mobileMenuAnchor, setMobileMenuAnchor] = React.useState<null | HTMLElement>(
+    null
+  );
 
   const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setMobileMenuAnchor(event.currentTarget);

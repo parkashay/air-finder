@@ -1,5 +1,11 @@
 import type { Itinerary } from "@/types/flights";
-import { ExpandLess, ExpandMore, FlightLand, FlightTakeoff, Nature } from "@mui/icons-material";
+import {
+  ExpandLess,
+  ExpandMore,
+  FlightLand,
+  FlightTakeoff,
+  Nature,
+} from "@mui/icons-material";
 import {
   Avatar,
   Box,
@@ -28,7 +34,6 @@ export function FlightCard({ itinerary }: FlightCardProps) {
   const outboundLeg = itinerary.legs[0];
   const returnLeg = itinerary.legs[1];
 
-  // Format time
   const formatTime = (isoString: string) => {
     const date = new Date(isoString);
     return date.toLocaleTimeString("en-US", {
@@ -38,7 +43,6 @@ export function FlightCard({ itinerary }: FlightCardProps) {
     });
   };
 
-  // Format duration
   const formatDuration = (minutes: number) => {
     const hours = Math.floor(minutes / 60);
     const mins = minutes % 60;
@@ -46,7 +50,6 @@ export function FlightCard({ itinerary }: FlightCardProps) {
     return `${hours}h ${mins}min`;
   };
 
-  // Get airline info
   const primaryCarrier = outboundLeg.carriers.marketing[0];
 
   return (
@@ -64,9 +67,8 @@ export function FlightCard({ itinerary }: FlightCardProps) {
       }}
     >
       <CardContent sx={{ p: { xs: 2, md: 3 } }}>
-        {/* Mobile Layout */}
+        {/*MARK: Mobile Layout */}
         <Box sx={{ display: { xs: "block", md: "none" } }}>
-          {/* Airline & Price Row */}
           <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
             <Box display="flex" alignItems="center" gap={1.5}>
               <Avatar
@@ -92,9 +94,14 @@ export function FlightCard({ itinerary }: FlightCardProps) {
             </Box>
           </Box>
 
-          {/* Flight Time & Route */}
           <Box mb={2}>
-            <Box display="flex" alignItems="center" justifyContent="center" gap={1} mb={1}>
+            <Box
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              gap={1}
+              mb={1}
+            >
               <Typography variant="h6" fontWeight={600}>
                 {formatTime(outboundLeg.departure)}
               </Typography>
@@ -134,7 +141,6 @@ export function FlightCard({ itinerary }: FlightCardProps) {
             </Typography>
           </Box>
 
-          {/* Flight Details Row */}
           <Box display="flex" justifyContent="space-around" mb={2}>
             <Box textAlign="center">
               <Typography variant="body2" fontWeight={500}>
@@ -148,7 +154,9 @@ export function FlightCard({ itinerary }: FlightCardProps) {
               <Typography variant="body2" fontWeight={500}>
                 {outboundLeg.stopCount === 0
                   ? "Non-stop"
-                  : `${outboundLeg.stopCount} stop${outboundLeg.stopCount > 1 ? "s" : ""}`}
+                  : `${outboundLeg.stopCount} stop${
+                      outboundLeg.stopCount > 1 ? "s" : ""
+                    }`}
               </Typography>
               <Typography variant="caption" color="text.secondary">
                 {outboundLeg.stopCount === 0 ? "Direct" : "Connecting"}
@@ -172,7 +180,6 @@ export function FlightCard({ itinerary }: FlightCardProps) {
             </Box>
           </Box>
 
-          {/* Select Button */}
           <Button
             variant="contained"
             fullWidth
@@ -187,7 +194,7 @@ export function FlightCard({ itinerary }: FlightCardProps) {
           </Button>
         </Box>
 
-        {/* Desktop Layout */}
+        {/*MARK: Desktop Layout */}
         <Box sx={{ display: { xs: "none", md: "flex" }, alignItems: "center", gap: 2 }}>
           {/* Airline Logo & Name */}
           <Box sx={{ width: "15%" }}>
@@ -210,7 +217,6 @@ export function FlightCard({ itinerary }: FlightCardProps) {
             </Box>
           </Box>
 
-          {/* Flight Times & Route */}
           <Box sx={{ width: "25%" }}>
             <Box display="flex" alignItems="center" gap={1} mb={0.5}>
               <Typography variant="h6" fontWeight={600}>
@@ -259,7 +265,6 @@ export function FlightCard({ itinerary }: FlightCardProps) {
             </Typography>
           </Box>
 
-          {/* Duration */}
           <Box sx={{ width: "15%" }} textAlign="center">
             <Typography variant="body1" fontWeight={500}>
               {formatDuration(outboundLeg.durationInMinutes)}
@@ -269,7 +274,6 @@ export function FlightCard({ itinerary }: FlightCardProps) {
             </Typography>
           </Box>
 
-          {/* Stops */}
           <Box sx={{ width: "15%" }} textAlign="center">
             <Typography variant="body1" fontWeight={500}>
               {outboundLeg.stopCount === 0
@@ -281,7 +285,6 @@ export function FlightCard({ itinerary }: FlightCardProps) {
             </Typography>
           </Box>
 
-          {/* CO2 Emissions */}
           <Box sx={{ width: "10%" }} textAlign="center">
             {itinerary.eco ? (
               <Box>
@@ -302,7 +305,6 @@ export function FlightCard({ itinerary }: FlightCardProps) {
             )}
           </Box>
 
-          {/* Price & Select */}
           <Box sx={{ width: "20%" }} textAlign="right">
             <Typography variant="h6" fontWeight={700} color="primary.main" gutterBottom>
               {itinerary.price.formatted}
@@ -321,7 +323,6 @@ export function FlightCard({ itinerary }: FlightCardProps) {
           </Box>
         </Box>
 
-        {/* Expand/Collapse Button */}
         <Box display="flex" justifyContent="center" mt={2}>
           <IconButton
             onClick={() => setExpanded(!expanded)}
@@ -335,7 +336,6 @@ export function FlightCard({ itinerary }: FlightCardProps) {
           </IconButton>
         </Box>
 
-        {/* Expanded Details */}
         <Collapse in={expanded}>
           <Divider sx={{ my: 2 }} />
           <Box>
@@ -343,7 +343,6 @@ export function FlightCard({ itinerary }: FlightCardProps) {
               Flight Details
             </Typography>
 
-            {/* Outbound Flight Details */}
             <Box mb={3}>
               <Typography variant="subtitle2" color="primary.main" gutterBottom>
                 Outbound Flight
@@ -388,7 +387,6 @@ export function FlightCard({ itinerary }: FlightCardProps) {
               </Box>
             </Box>
 
-            {/* Return Flight Details (if exists) */}
             {returnLeg && (
               <Box mb={3}>
                 <Typography variant="subtitle2" color="primary.main" gutterBottom>
@@ -435,14 +433,17 @@ export function FlightCard({ itinerary }: FlightCardProps) {
               </Box>
             )}
 
-            {/* Flight Policies */}
             <Box mt={3}>
               <Typography variant="subtitle2" gutterBottom>
                 Fare Policies
               </Typography>
               <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
                 <Chip
-                  label={itinerary.farePolicy.isChangeAllowed ? "Changes allowed" : "No changes"}
+                  label={
+                    itinerary.farePolicy.isChangeAllowed
+                      ? "Changes allowed"
+                      : "No changes"
+                  }
                   size="small"
                   color={itinerary.farePolicy.isChangeAllowed ? "success" : "default"}
                 />
@@ -453,10 +454,17 @@ export function FlightCard({ itinerary }: FlightCardProps) {
                       : "No cancellation"
                   }
                   size="small"
-                  color={itinerary.farePolicy.isCancellationAllowed ? "success" : "default"}
+                  color={
+                    itinerary.farePolicy.isCancellationAllowed ? "success" : "default"
+                  }
                 />
                 {itinerary.tags.map((tag) => (
-                  <Chip key={tag} label={tag.replace("_", " ")} size="small" variant="outlined" />
+                  <Chip
+                    key={tag}
+                    label={tag.replace("_", " ")}
+                    size="small"
+                    variant="outlined"
+                  />
                 ))}
               </Stack>
             </Box>

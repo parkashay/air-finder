@@ -31,7 +31,9 @@ const createSearchParams = (
     departureDate: data.selectedDateRange?.from
       ? formatDateToYYYYMMDD(data.selectedDateRange.from)
       : null,
-    returnDate: data.selectedDateRange?.to ? formatDateToYYYYMMDD(data.selectedDateRange.to) : null,
+    returnDate: data.selectedDateRange?.to
+      ? formatDateToYYYYMMDD(data.selectedDateRange.to)
+      : null,
     adults: String(data.passengers.adults),
     children: String(data.passengers.children),
     infants: String(data.passengers.infants),
@@ -63,8 +65,9 @@ export function FlightSearchForm() {
     getSearchData,
   } = useFlightStore();
 
-  // Check if required fields are filled
-  const isFormValid = Boolean(origin.skyId && destination.skyId && selectedDateRange?.from);
+  const isFormValid = Boolean(
+    origin.skyId && destination.skyId && selectedDateRange?.from
+  );
 
   // Convert store data to component format
   const originAirport: AirportOption | null = origin.skyId
@@ -87,7 +90,10 @@ export function FlightSearchForm() {
       }
     : null;
 
-  const handleTripTypeChange = (_: React.MouseEvent<HTMLElement>, newTripType: string) => {
+  const handleTripTypeChange = (
+    _: React.MouseEvent<HTMLElement>,
+    newTripType: string
+  ) => {
     if (newTripType !== null) {
       setTripType(newTripType as "round-trip" | "one-way" | "multi-city");
     }
@@ -180,7 +186,8 @@ export function FlightSearchForm() {
             display: "grid",
             gridTemplateColumns: {
               xs: "1fr",
-              md: tripType === "round-trip" ? "3fr 0.5fr 3fr 2fr 2fr" : "3fr 0.5fr 3fr 2fr",
+              md:
+                tripType === "round-trip" ? "3fr 0.5fr 3fr 2fr 2fr" : "3fr 0.5fr 3fr 2fr",
             },
             gap: 2,
             alignItems: "center",
