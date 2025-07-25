@@ -98,6 +98,7 @@ export function AirportAutocomplete({
           {...params}
           label={label}
           fullWidth
+          placeholder={variant === "from" ? "Place of departure" : "Place of arrival"}
           slotProps={{
             input: {
               ...params.InputProps,
